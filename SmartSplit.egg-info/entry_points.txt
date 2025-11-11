@@ -1,0 +1,2 @@
+[console_scripts]
+SmartSplit = SmartSpliter.cli:main
