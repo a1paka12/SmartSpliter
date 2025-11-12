@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "SmartSpliter"
+dynamic = ["version"]
+authors = [
+    { name = "alpaka", email = "a1pakadeveloper@gmail.com" }
+]
+description = "A balanced dataset splitter for multi-domain, multi-class AI tasks."
+
+readme = { file = "README.md", content-type = "text/markdown" }
+
+requires-python = ">=3.8"
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Utilities",
+]
+
+dependencies = [
+    "numpy",
+    "pandas",
+    "scikit-learn",
+]
+
+[project.urls]
+Homepage = "https://github.com/a1paka12/SmartSpliter"
+Repository = "https://github.com/a1paka12/SmartSpliter"
+
+[project.scripts]
+SmartSplit = "SmartSplit.cli:main"
+
+[tool.setuptools.packages.find]
+
+[tool.setuptools-scm]
+local_scheme = "no-local-version"
+
+where = ["."]
