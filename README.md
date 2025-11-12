@@ -31,7 +31,7 @@ It can be easily installed via pip.
 
 bash Shell
 ```
-pip install SmartSplitter
+pip install SmartSpliter
 ```
 
 # 📁 Required Data Folder Structure
@@ -74,7 +74,7 @@ datasets/
 # 📊 Usage (CLI)
 Installing
 ```
-pip install SmartSplitter
+pip install SmartSpliter
 ```
 make the SmartSplit command immediately available in your terminal.
 
