@@ -80,6 +80,7 @@ def load_datasets(root_dir, class_list, label_map):
                     })
                 # else:
                 #     print(f"Warning: Skipping file, cannot parse class: {fname}")
+    print("...Scan complete.", flush=True)
     import pandas as pd
     return pd.DataFrame(records)
 
