@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setuptools.setup(
     name="SmartSpliter", 
     
-    version="1.0.0",
+    version="{{VERSION_PLACEHOLDER}}",
 
     author="alpaka",
     author_email="a1pakadeveloper@gmail.com",
