@@ -1,1 +1,3 @@
 SmartSplit
+build
+dist
