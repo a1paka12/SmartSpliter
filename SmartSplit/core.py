@@ -165,7 +165,7 @@ class SmartSplitter:
         df = load_datasets(self.data_path, self.class_list, self.load_map)
         
         if df.empty:
-            print(f"Error: No data loaded. Check --data path and --classes {self.class_list}")
+            print(f"Error: No data loaded. If you input it as cli check --data path and --classes {self.class_list}")
             return
             
         # 2. 원본 데이터 통계 리포트
@@ -178,11 +178,20 @@ class SmartSplitter:
         print(f"\nCounts per (Domain, Label):\n{df.groupby('domain')[self.label_col].value_counts()}")
         print("="*40)
 
+        label_dic = df[self.label_col].value_counts().to_dict()
+        keys_less_than_10 = [key for key, value in label_dic.items() if value < 10]
+
         # 3. stats-only 모드면 여기서 중지 (밸런싱 계획 출력 전)
         if stats_only:
             print(f"\n--stats-only mode enabled with --balance-mode='{self.balance_mode}'.")
             print("Stopping before balancing, splitting, or saving.")
             print("="*40)
+            return
+        
+        # 각 class 개수가 10개 미만이면 중지 및 에러메세지 출력
+        if keys_less_than_10:
+            print("Error: Please check your data. There are fewer than 10 data points in your data.")
+            print(f"Please keep at least 10 data points per class. Missing data: {", ".join(keys_less_than_10)}")
             return
 
         # 4. 선택된 밸런싱 모드 실행
