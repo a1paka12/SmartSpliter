@@ -1,34 +1,46 @@
-🚀 SmartSplit: Multi-Domain, Multi-Class Dataset Splitter
-SmartSplit은 AI 연구 및 대회를 위해 설계된 Python 유틸리티입니다. 복잡한 다중 도메인 및 다중 클래스 이미지 데이터셋을 지정된 비율(train/val/test)로 균형 있게 분할합니다.
+# 🚀 SmartSplit : Multi-Domain, Multi-Class Dataset Splitter
 
-Domain_A/dog/, Domain_B/cat/처럼 섞인 데이터셋을 입력하면, 완벽하게 균형 잡힌 train.csv, val.csv, test.csv 파일을 생성합니다.
 
-💡 주요 기능
-3가지 밸런싱 전략:
+SmartSplit is a Python utility designed for AI research and competitions. 
 
-label (라벨 우선): 라벨 비율(e.g., dog:cat:bird = 1:1:1)을 완벽하게 보장합니다.
+It splits complex multi-domain and multi-class image datasets into balanced segments (train/val/test) at specified ratios.
 
-domain (도메인 우선): 도메인 비율(e.g., DomainA:DomainB = 1:1)을 완벽하게 보장합니다.
+If you input a mixed dataset like Domain_A/dog/, Domain_B/cat/, it will generate perfectly balanced train.csv, val.csv, and test.csv files.
 
-intersection (교집합): (DomainA, dog), (DomainB, cat) 등 모든 교집합 그룹의 수를 최소 그룹 기준으로 맞춥니다.
+# 💡 Introduce
+* **Three** balancing strategies:
 
-유연한 폴더 구조 지원: Domain/Class/file.jpg 구조와 Domain/class_file.jpg 구조를 모두 자동 탐지합니다.
+  * **label priority** : Perfectly guarantees label ratios (e.g., dog:cat:bird = 1:1:1).
 
-CLI & Library: 터미널에서 간편하게 사용하거나, Python 스크립트에서 import하여 사용할 수 있습니다.
+  * **domain priority** : Perfectly guarantees domain ratios (e.g., DomainA:DomainB = 1:1).
 
-실행 전 검증: --stats-only (Dry Run) 옵션으로 데이터 스캔 결과와 밸런싱 계획을 미리 확인할 수 있습니다.
+  * **intersection** : Matches all intersection groups, such as (DomainA, dog) and (DomainB, cat), to the minimum group count.
 
-💾 설치
-PyPI를 통해 간편하게 설치할 수 있습니다.
+* Flexible folder structure support: Automatically detects the following structures.
+  ```
+  Domain/Class/file.jpg
+  Domain/class_file.jpg 
+  ```
 
-Bash
+* CLI & Library : Easy to use from the **terminal** or **import** into a Python script.
 
+* Pre-run verification: Preview the data scan results and balancing plan with the --stats-only (Dry Run) option.
+
+# 💾 Installation
+It can be easily installed via pip.
+
+bash Shell
+```
 pip install SmartSpliter
-📁 필수 데이터 폴더 구조
---data 인자로 지정한 폴더는 다음과 같은 "도메인" 하위 폴더를 가져야 합니다. io.py가 두 가지 구조를 모두 지원합니다.
+```
 
-구조 1: 클래스별 폴더 (권장)
+# 📁 Required Data Folder Structure
+The folder specified as the data argument must have the following "domain" subfolders.
 
+io.py supports the following both structures.
+
+Structure 1: Folders by class (recommended)
+```
 datasets/
 ├── Domain_A/
 │   ├── dog/
@@ -41,7 +53,9 @@ datasets/
     │   └── dog_03.jpg
     └── bird/
         └── bird_01.jpg
-구조 2: 파일명에 클래스 포함
+```
+Structure 2: Including the class in the file name
+```
 
 datasets/
 ├── Domain_C_shuffled/
@@ -49,26 +63,42 @@ datasets/
 │   ├── prefix_cat_img.png
 │   └── another_bird_file.jpg
 └── Domain_D_mixed/
-    ├── cat_folder/          (구조 1과)
-    │   └── cat_in_box.jpg
-    └── dog_on_grass.jpg     (구조 2가 혼용 가능)
+    ├── cat_folder/
+    │    └── cat_in_box.jpg
+    ├── dog_folder/   
+         └── dog_on_grass.jpg
+```
 
-📊 사용법 (CLI)
-pip install SmartSpliter로 설치하면 SmartSplit 명령어를 터미널에서 즉시 사용할 수 있습니다.
+**Structure 1 and Structure 2 can be mixed**
 
-기본 예시
-datasets 폴더를 스캔하여 dog, cat, bird 클래스를 찾고, 라벨(label) 우선으로 8:1:1 비율로 분할합니다.
+# 📊 Usage (CLI)
+Installing
+```
+pip install SmartSpliter
+```
+make the SmartSplit command immediately available in your terminal.
 
-Bash
 
-SmartSplit --data ./datasets --classes dog cat bird --ratio 8 1 1 --balance-mode label
-or
-python -m SmartSplit --data ./datasets --classes dog cat bird --ratio 8 1 1 --balance-mode label
+* Basic example
 
-전체 명령어 및 옵션
-SmartSplit -h 실행 시 볼 수 있는 도움말입니다.
+   Scan the datasets folder to find dog, cat, and bird classes, and split them in a 8:1:1 ratio with labels first.
 
-usage: smart-split [-h] --data DATA --classes CLASSES [CLASSES ...]
+  Bash Shell
+  ```bash
+  SmartSplit --data ./datasets --classes dog cat bird --ratio 8 1 1 --balance-mode label
+  ```
+  or
+  ```bash
+  python -m SmartSplit --data ./datasets --classes dog cat bird --ratio 8 1 1 --balance-mode label
+  ```
+
+* Full commands and options
+
+  Here's the help you'll see when you run **SmartSplit -h**.
+
+```
+
+smart-split [-h] --data DATA --classes CLASSES [CLASSES ...]
                    [--ratio RATIO RATIO RATIO]
                    [--balance-mode {label,domain,intersection}]
                    [--label-map LABEL_MAP] [--seed SEED] [--output OUTPUT]
@@ -86,15 +116,15 @@ options:
 
   --balance-mode {label,domain,intersection}
                         Balancing strategy (default: 'label'):
-                        'label':        [라벨 우선]
-                                        모든 라벨의 1:1:1... 비율을 보장합니다.
-                                        (도메인 비율은 깨질 수 있습니다.)
-                        'domain':       [도메인 우선]
-                                        모든 도메인의 1:1:1... 비율을 보장합니다.
-                                        (라벨 비율은 깨질 수 있습니다.)
-                        'intersection': [교집합 (완벽 균형)]
-                                        (도메인 x 라벨) 교집합의 최소 샘플 수로 모두 맞춥니다.
-                                        (데이터 손실이 크거나 특정 라벨이 제외될 수 있습니다.)
+                        'label':        [Label priority]
+                Guarantees a 1:1:1... ratio for all labels.
+                (Domain ratios may be broken.)
+'domain':       [Domain priority]
+                Guarantees a 1:1:1... ratio for all domains.
+                (Label ratios may be broken.)
+'intersection': [Intersection (perfect balance)]
+                Matches all domains to the minimum number of samples in the (domain x label) intersection.
+                (Data loss may be significant or certain labels may be excluded.)
 
   --label-map LABEL_MAP
                         [Optional] Map class names to integers. Example:
@@ -105,105 +135,167 @@ options:
   --stats-only          [Helper] Run in 'dry-run' mode. Scans, counts, and
                         reports the balancing plan without splitting or saving.
   --no-report           Disable final ratio report output
+```
+# 🔧Usage (Library)
+You can import and use it directly in a Python script or Jupyter Notebook.
 
-🐍 사용법 (라이브러리)
-Python 스크립트나 Jupyter Notebook에서 직접 import하여 사용할 수 있습니다.
+* **Example 1**: Running a basic split
 
-예제 1: 기본 분할 실행
-Python
-
+```python
+import os
 from SmartSplit import SmartSplitter
 
-# 1. 설정 정의
+# Setting Definition
 DATA_DIR = "./datasets"
 CLASSES = ["dog", "cat", "bird"]
-OUTPUT_DIR = "./output_from_script"
+DATA_DIR = "./sample_datasets"
+CLASSES = ["dog", "cat", "hamster", "rabbit"]
 
-# 2. SmartSplitter 인스턴스 생성
+current_script_path = os.path.abspath(__file__)
+
+current_script_dir = os.path.dirname(current_script_path)
+
+target_folder_path = os.path.join(current_script_dir, "intersection_output") # (e.g., C:\project\output)
+
+dataset_folder_path = os.path.join(current_script_dir, DATA_DIR)
+
+os.makedirs(target_folder_path, exist_ok=True)
+
+# Creating a SmartSplitter instance
 splitter = SmartSplitter(
-    data_path=DATA_DIR,
+    data_path=dataset_folder_path,
     class_list=CLASSES,
-    balance_mode='label',  # 'domain' 또는 'intersection' 선택 가능
-    label_map={'dog': 0, 'cat': 1, 'bird': 2}, # None으로 두면 라벨이 'dog', 'cat' 문자열로 저장됨
+    balance_mode='label',  # You can choose 'domain' or 'intersection'
+    label_map={'dog': 0, 'cat': 1, 'bird': 2}, # If left as None, the label will be saved as the string 'dog', 'cat'
     ratio=(8, 1, 1),
     seed=42,
-    output=OUTPUT_DIR
+    output=target_folder_path
 )
 
-# 3. 분할 실행
-# print() 문이 즉시 출력되도록 flush=True가 내장되어 있습니다.
+# split execution
 splitter.run(report=True) 
 
 print(f"작업 완료! {OUTPUT_DIR}에서 CSV 파일을 확인하세요.")
-예제 2: 실행 전 스캔 (Dry Run)
-splitter.run()을 호출하기 전에 --stats-only 헬퍼 기능을 사용할 수 있습니다.
+```
 
-Python
+* **Example 2** : Scan before execution (Dry Run)
+You can use the --stats-only helper function before calling splitter.run().
+
+```python
 
 from SmartSplit import SmartSplitter
 
-# 1. 스캔할 정보만 입력
+# Enter only the information you want to scan
 splitter_check = SmartSplitter(
     data_path="./datasets",
-    class_list=["dog", "cat", "bird", "rabbit"], # 일부러 존재하지 않는 클래스 포함
+    class_list=["dog", "cat", "bird", "rabbit"], # Including classes that intentionally do not exist
     balance_mode='label'
 )
 
-# 2. stats_only=True로 실행
-print("데이터셋 스캔 및 밸런싱 계획을 확인합니다...")
+# Run with stats_only=True
+print("Check the dataset scan and balancing plan...")
 splitter_check.run(stats_only=True)
+```
 
-#출력 예시:
-Loading dependencies (pandas, sklearn)...
+
+**Output example :**
+```bash
 Loading datasets...
-Scanning 2 domains...
 Found structure: natures/... (parsing filenames)
 Found structure: room/cat/...
 Found structure: room/dog/...
 Found structure: room/hamster/...
 Found structure: room/rabbit/...
-Found structure: sky/... (parsing filenames)
+Found structure: sky/... (parsing filenames)    
 ...Scan complete.
 
- ========================================
- 📊 Raw Data Stats (Before Balancing)
- ========================================
- ...
- Class counts (raw):
- dog    5000
- cat    4500
- bird   1200
- Name: label, dtype: int64
- ...
- ========================================
- 📋 Balancing Plan (PRIORITY: LABEL)
- ========================================
- Minority class is 'bird' with 1200 samples.
- All other classes will be downsampled to 1200 samples.
+========================================
+📊 Raw Data Stats (Before Balancing)    
+========================================
+Total files found: 54
 
---stats-only mode enabled. Stopping...
+Class counts (raw):
+label
+rabbit     21
+hamster    13
+dog        10
+cat        10
+Name: count, dtype: int64
 
-⚠️ 문제 해결 (Troubleshooting)
-ValueError: ...too few members... 또는 ValueError: The test_size...
-가장 흔하게 발생하는 오류입니다.
+Domain counts (raw):
+domain
+room       24
+natures    15
+sky        15
+Name: count, dtype: int64
 
-ValueError: The least populated class in y has only 1 member, which is too few.
-또는
+Counts per (Domain, Label):
+domain   label
+natures  rabbit     8
+         hamster    3
+         cat        2
+         dog        2
+room     cat        6
+         dog        6
+         hamster    6
+         rabbit     6
+sky      rabbit     7
+         hamster    4
+         cat        2
+         dog        2
+Name: count, dtype: int64
+========================================
 
-ValueError: The test_size = 3 should be greater or equal to the number of classes = 4
-원인: 이 오류는 sklearn이 데이터를 분할할 때 발생합니다. stratify(계층적 분할) 옵션은 train, val, test 세트 모두에 모든 클래스/그룹의 샘플이 최소 1개씩 들어가도록 하려고 합니다. 하지만 사용자가 지정한 --ratio에 비해 특정 클래스(또는 도메인, 교집합 그룹)의 샘플 수가 너무 적으면 분할이 불가능합니다.
+--stats-only mode enabled with --balance-mode='label'.
+Stopping before balancing, splitting, or saving.
+========================================
+```
+# ⚠️ Troubleshooting
 
-해결책 (Rule of Thumb):
+```
+FileNotFoundError: ...
+```
+This error occurs after installing the os module and entering os.path as data_path.
 
-[밸런싱 후] 가장 적은 그룹의 파일 개수는 최소한 --ratio의 총합보다 많아야 합니다.
+These are the most common error.
 
-예시:
+```
+**ValueError: ...too few members...** 
 
---ratio 8 1 1 (총합 10) → balance-mode로 선택된 최소 그룹이 최소 10개의 파일은 가져야 합니다.
+or 
 
---ratio 7 2 1 (총합 10) → 최소 10개의 파일이 필요합니다.
+**ValueError: The test_size...**
 
-진단: 먼저 --stats-only 헬퍼 기능을 사용해 "Raw Data Stats" 리포트에서 각 클래스/도메인/교집합 그룹의 파일 개수를 확인하세요.
+or
 
-📜 라이선스
-(여기에 MIT, Apache 2.0 등 원하는 라이선스 내용을 기재하세요.)
+**ValueError: The least populated class in y has only 1 member, which is too few.** 
+
+or
+
+**ValueError: The test_size = 3 should be greater or equal to the number of classes = 4**
+```
+
+**Cause:**
+
+This error occurs when sklearn splits the data. 
+The stratify option attempts to ensure that each class/group has at least one sample in each of the train, val, and test sets. 
+
+However, if the number of samples for a particular class (or domain, or intersection group) is too small compared to the user-specified --ratio, splitting is not possible.
+
+**Rule of Thumb :**
+
+**[After balancing]** The number of files in the smallest group must be at least as large as the sum of --ratio.
+
+**Example :**
+
+--ratio 8 1 1 (Total 10) → The minimum group selected with balance-mode must have at least 10 files.
+
+--ratio 7 2 1 (Total 10) → At least 10 files are required.
+
+**Diagnosis :**
+
+First, use the --stats-only helper function to check the number of files in each class/domain/intersection group in the "Raw Data Stats" report.
+# 📜 License
+[LICENSE](https://raw.githubusercontent.com/a1paka12/SmartSpliter/refs/heads/main/LICENSE)
+# 🎞Copyright for sample photos
+All photos were downloaded from [pixabay](https://pixabay.com/en/).
