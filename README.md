@@ -31,7 +31,7 @@ It can be easily installed via pip.
 
 bash Shell
 ```
-pip install SmartSpliter
+pip install SmartSplitter
 ```
 
 # 📁 Required Data Folder Structure
@@ -74,7 +74,7 @@ datasets/
 # 📊 Usage (CLI)
 Installing
 ```
-pip install SmartSpliter
+pip install SmartSplitter
 ```
 make the SmartSplit command immediately available in your terminal.
 
@@ -143,7 +143,7 @@ You can import and use it directly in a Python script or Jupyter Notebook.
 
 ```python
 import os
-from SmartSplit import SmartSplitter
+from SmartSplitter import SmartSplitter
 
 # Setting Definition
 DATA_DIR = "./datasets"
@@ -183,7 +183,7 @@ You can use the --stats-only helper function before calling splitter.run().
 
 ```python
 
-from SmartSplit import SmartSplitter
+from SmartSplitter import SmartSplitter
 
 # Enter only the information you want to scan
 splitter_check = SmartSplitter(
