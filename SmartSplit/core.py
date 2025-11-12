@@ -188,7 +188,7 @@ class SmartSplitter:
             print("="*40)
             return
         
-        # 각 class 개수가 10개 미만이면 중지 및 에러메세지 출력
+        # 각 class 개수가 10개 미만이면 중지 및 에러메세지 출력 
         if keys_less_than_10:
             print("Error: Please check your data. There are fewer than 10 data points in your data.")
             print(f"Please keep at least 10 data points per class. Missing data: {", ".join(keys_less_than_10)}")
