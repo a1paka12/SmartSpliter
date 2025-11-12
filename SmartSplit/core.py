@@ -3,7 +3,6 @@
 import os
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
 from .utils.io import load_datasets, save_csv
 from .utils.stats import print_ratio_report
 
@@ -160,8 +159,9 @@ class SmartSplitter:
         print(f"\n✅ Split complete! Files saved in {self.output}")
 
     def run(self, report=True, stats_only=False):
+        print("Loading datasets...", flush=True)
+
         # 1. 데이터 로드
-        print("Loading datasets...")
         df = load_datasets(self.data_path, self.class_list, self.load_map)
         
         if df.empty:
@@ -216,8 +216,10 @@ class SmartSplitter:
         print(f"Final balanced domain counts:\n{balanced_df['domain'].value_counts()}")
 
         # 5. 최종 분할 (Stratified)
-        print(f"\nSplitting data (Stratify by '{stratify_col}')...")
+        print(f"\nSplitting data (Stratify by '{stratify_col}')...", flush=True)
         train_ratio, val_ratio, test_ratio = self.ratio / self.ratio.sum()
+
+        from sklearn.model_selection import train_test_split
         
         try:
             train_df, temp_df = train_test_split(

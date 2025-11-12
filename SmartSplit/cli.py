@@ -43,15 +43,15 @@ def main():
         choices=['label', 'domain', 'intersection'],
         default='label',
         help="""Balancing strategy (default: 'label'):
-'label':        [라벨 우선]
-                모든 라벨의 1:1:1... 비율을 보장합니다.
-                (도메인 비율은 깨질 수 있습니다.)
-'domain':       [도메인 우선]
-                모든 도메인의 1:1:1... 비율을 보장합니다.
-                (라벨 비율은 깨질 수 있습니다.)
-'intersection': [교집합 (완벽 균형)]
-                (도메인 x 라벨) 교집합의 최소 샘플 수로 모두 맞춥니다.
-                (데이터 손실이 크거나 특정 라벨이 제외될 수 있습니다.)
+'label':        [Label priority]
+                Guarantees a 1:1:1... ratio for all labels.
+                (Domain ratios may be broken.)
+'domain':       [Domain priority]
+                Guarantees a 1:1:1... ratio for all domains.
+                (Label ratios may be broken.)
+'intersection': [Intersection (perfect balance)]
+                Matches all domains to the minimum number of samples in the (domain x label) intersection.
+                (Data loss may be significant or certain labels may be excluded.)
 """
     )
 

@@ -1,7 +1,6 @@
 # smart_split/utils/io.py
 
 import os
-import pandas as pd
 import re
 
 def parse_label_from_filename(fname, class_list):
@@ -52,7 +51,7 @@ def load_datasets(root_dir, class_list, label_map):
             # 하위 폴더 이름이 'dog', 'cat' 등 클래스 리스트와 일치하는지 확인
             if os.path.isdir(sub_path) and sub_name in class_list:
                 is_structure_1 = True
-                print(f"Found structure: {domain}/{sub_name}/...")
+                print(f"Found structure: {domain}/{sub_name}/...", flush=True)
                 for fname in os.listdir(sub_path):
                     if fname.lower().endswith((".jpg", ".png", ".jpeg")):
                         records.append({
@@ -64,7 +63,7 @@ def load_datasets(root_dir, class_list, label_map):
 
         # Structure 1이 아니었다면 Structure 2 (Domain/shuffled.jpg)로 간주
         if not is_structure_1:
-            print(f"Found structure: {domain}/... (parsing filenames)")
+            print(f"Found structure: {domain}/... (parsing filenames)", flush=True)
             for fname in os.listdir(domain_path):
                 if not fname.lower().endswith((".jpg", ".png", ".jpeg")):
                     continue
@@ -81,8 +80,7 @@ def load_datasets(root_dir, class_list, label_map):
                     })
                 # else:
                 #     print(f"Warning: Skipping file, cannot parse class: {fname}")
-
-
+    import pandas as pd
     return pd.DataFrame(records)
 
 def save_csv(df, path):

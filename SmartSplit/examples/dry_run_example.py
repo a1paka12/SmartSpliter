@@ -44,7 +44,7 @@ splitter2 = SmartSplitter(
 )
 
 #3. 실행
-splitter.run(stats_only=True)
-# splitter.run()
+# splitter.run(stats_only=True)
+splitter.run()
 # splitter1.run()
 # splitter2.run()
