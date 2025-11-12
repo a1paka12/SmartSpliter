@@ -18,10 +18,8 @@ CLI & Library: 터미널에서 간편하게 사용하거나, Python 스크립트
 
 실행 전 검증: --stats-only (Dry Run) 옵션으로 데이터 스캔 결과와 밸런싱 계획을 미리 확인할 수 있습니다.
 
-실시간 피드백: tqdm 없이도 print(..., flush=True)를 통해 현재 스캔 중인 도메인과 진행 상황을 즉시 출력합니다.
-
 💾 설치
-PyPI를 통해 간편하게 설치할 수 있습니다. (배포 후)
+PyPI를 통해 간편하게 설치할 수 있습니다.
 
 Bash
 
@@ -54,17 +52,21 @@ datasets/
     ├── cat_folder/          (구조 1과)
     │   └── cat_in_box.jpg
     └── dog_on_grass.jpg     (구조 2가 혼용 가능)
+
 📊 사용법 (CLI)
-pip install SmartSpliter로 설치하면 smart-split 명령어를 터미널에서 즉시 사용할 수 있습니다.
+pip install SmartSpliter로 설치하면 SmartSplit 명령어를 터미널에서 즉시 사용할 수 있습니다.
 
 기본 예시
 datasets 폴더를 스캔하여 dog, cat, bird 클래스를 찾고, 라벨(label) 우선으로 8:1:1 비율로 분할합니다.
 
 Bash
 
-smart-split --data ./datasets --classes dog cat bird --ratio 8 1 1 --balance-mode label
+SmartSplit --data ./datasets --classes dog cat bird --ratio 8 1 1 --balance-mode label
+or
+python -m SmartSplit --data ./datasets --classes dog cat bird --ratio 8 1 1 --balance-mode label
+
 전체 명령어 및 옵션
-smart-split -h 실행 시 볼 수 있는 도움말입니다.
+SmartSplit -h 실행 시 볼 수 있는 도움말입니다.
 
 usage: smart-split [-h] --data DATA --classes CLASSES [CLASSES ...]
                    [--ratio RATIO RATIO RATIO]
@@ -103,13 +105,14 @@ options:
   --stats-only          [Helper] Run in 'dry-run' mode. Scans, counts, and
                         reports the balancing plan without splitting or saving.
   --no-report           Disable final ratio report output
+
 🐍 사용법 (라이브러리)
 Python 스크립트나 Jupyter Notebook에서 직접 import하여 사용할 수 있습니다.
 
 예제 1: 기본 분할 실행
 Python
 
-from smart_split import SmartSplitter
+from SmartSplit import SmartSplitter
 
 # 1. 설정 정의
 DATA_DIR = "./datasets"
@@ -137,7 +140,7 @@ splitter.run()을 호출하기 전에 --stats-only 헬퍼 기능을 사용할 �
 
 Python
 
-from smart_split import SmartSplitter
+from SmartSplit import SmartSplitter
 
 # 1. 스캔할 정보만 입력
 splitter_check = SmartSplitter(
@@ -150,31 +153,36 @@ splitter_check = SmartSplitter(
 print("데이터셋 스캔 및 밸런싱 계획을 확인합니다...")
 splitter_check.run(stats_only=True)
 
-# 출력 예시:
-# Loading dependencies (pandas, sklearn)...
-# Loading datasets...
-# Scanning 2 domains...
-# [1/2] Scanning Domain: Domain_A
-# [2/2] Scanning Domain: Domain_B
-# ...Scan complete.
-#
-# ========================================
-# 📊 Raw Data Stats (Before Balancing)
-# ========================================
-# ...
-# Class counts (raw):
-# dog    5000
-# cat    4500
-# bird   1200
-# Name: label, dtype: int64
-# ...
-# ========================================
-# 📋 Balancing Plan (PRIORITY: LABEL)
-# ========================================
-# Minority class is 'bird' with 1200 samples.
-# All other classes will be downsampled to 1200 samples.
-#
-# --stats-only mode enabled. Stopping...
+#출력 예시:
+Loading dependencies (pandas, sklearn)...
+Loading datasets...
+Scanning 2 domains...
+Found structure: natures/... (parsing filenames)
+Found structure: room/cat/...
+Found structure: room/dog/...
+Found structure: room/hamster/...
+Found structure: room/rabbit/...
+Found structure: sky/... (parsing filenames)
+...Scan complete.
+
+ ========================================
+ 📊 Raw Data Stats (Before Balancing)
+ ========================================
+ ...
+ Class counts (raw):
+ dog    5000
+ cat    4500
+ bird   1200
+ Name: label, dtype: int64
+ ...
+ ========================================
+ 📋 Balancing Plan (PRIORITY: LABEL)
+ ========================================
+ Minority class is 'bird' with 1200 samples.
+ All other classes will be downsampled to 1200 samples.
+
+--stats-only mode enabled. Stopping...
+
 ⚠️ 문제 해결 (Troubleshooting)
 ValueError: ...too few members... 또는 ValueError: The test_size...
 가장 흔하게 발생하는 오류입니다.
